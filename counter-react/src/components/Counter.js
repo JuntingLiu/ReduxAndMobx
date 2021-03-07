@@ -1,28 +1,33 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import * as counterActions from '../store/actions/counter.action'
 
-function Counter (props) {
+function Counter ({ count, increment, decrement}) {
   return (
     <div>
-      <button onClick={props.increment}>+</button>
-      <span>{props.count}</span>
-      <button onClick={props.decrement}>-</button>
+      <button onClick={() => increment(5)}>+</button>
+      <span>{count}</span>
+      <button onClick={() => decrement(5)}>-</button>
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    count: state.count
+    count: state.counter.count
   }
 }
 
-const increment = () => ({ type: 'increment'})
-const decrement = () => ({ type: 'decrement'})
+// const mapDispatchToProps = dispatch => ({
+//   increment: () => dispatch(increment()),
+//   decrement: () => dispatch(decrement())
+// })
 
+// 更精简
 const mapDispatchToProps = dispatch => ({
-  increment: () => dispatch(increment()),
-  decrement: () => dispatch(decrement())
+  ...bindActionCreators(counterActions, dispatch)
 })
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)
