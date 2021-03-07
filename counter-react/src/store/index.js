@@ -1,9 +1,7 @@
-import { createStore, combineReducers } from 'redux'
-import { } from 'react-redux'
-import { counter, modal } from './reducers'
+import { createStore } from 'redux'
+import rootReducer from './reducers/root.reducer'
 
-const store = createStore(combineReducers(
-  { counter, modal }
-))
+
+const store = createStore(rootReducer)
 
 export default store
