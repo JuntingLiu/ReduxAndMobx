@@ -1,7 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import * as productActions from '../store/actions/product.action'
 
 class Product extends React.Component {
+  componentDidMount() {
+    // 发送请求，获取商品数据
+    const { loadProducts } = this.props
+    loadProducts()
+  }
+
   render() {
+    const { products } = this.props
     return (
       <section className="container content-section">
         <h2 className="section-header">商品列表</h2>
@@ -44,4 +55,10 @@ class Product extends React.Component {
   }
 }
 
-export default Product
+const mapStateToProps = state => ({
+  products: state.products
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators(productActions, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product)
