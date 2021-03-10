@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { takeEvery, put } from 'redux-saga/effects'
 
-import { addProductToCart, addProductToLocalCart, deleteProduct, deleteProductFromLocalCarts, loadCarts, saveCarts } from '../actions/cart.action'
+import { addProductToCart, addProductToLocalCart, changeLocalProductNumber, changeServiceProductNumber, deleteProduct, deleteProductFromLocalCarts, loadCarts, saveCarts } from '../actions/cart.action'
 
 function* handleAddProductToCart(action) {
   const { data } = yield axios.post('http://localhost:3005/cart/add', { gid: action.payload })
@@ -22,6 +22,11 @@ function* handleDeleteProduct(action) {
   yield put(deleteProductFromLocalCarts(data.index))
 }
 
+function* handleChangeServiceProductNumber(action) {
+  const { data } = yield axios.put('http://localhost:3005/cart', action.payload)
+  yield put(changeLocalProductNumber(data))
+}
+
 export default function* cartSaga() {
   // 将商品添加到购物车中
   yield takeEvery(addProductToCart, handleAddProductToCart)
@@ -29,4 +34,6 @@ export default function* cartSaga() {
   yield takeEvery(loadCarts, handleLoadCarts)
   // 想服务器端发送请求 删除购物车中指定商品
   yield takeEvery(deleteProduct, handleDeleteProduct)
+  //
+  yield takeEvery(changeServiceProductNumber, handleChangeServiceProductNumber)
 }
