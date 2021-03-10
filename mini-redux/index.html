@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用 Mini-Redux ｜ 实现一个简单的计数器</title>
+</head>
+<body>
+  <button id="increment">+</button>
+  <span id="count">0</span>
+  <button id="decrement">-</button>
+
+<script src="mini-redux.js"></script>
+<script>
+  // 3. 初始化默认状态
+  const initialState = {
+    count: 0
+  }
+  // 2. 创建 reducer 函数
+  function reducer(state = initialState, action) {
+    switch (action.type) {
+      case 'increment':
+        return {
+          count: state.count + 1
+        }
+      case 'decrement':
+        return {
+          count: state.count - 1
+        }
+      default:
+        return state
+    }
+  }
+
+  // 1. 创建 store 对象
+  const store = createStore(reducer)
+
+  // 4. 定义 action 操作状态的行为方式
+  const increment = { type: 'increment' }
+  const decrement = { type: 'decrement' }
+
+  // 5. 绑定事件，去触发 action
+  document.getElementById('increment').onclick = function () {
+    store.dispatch(increment)
+  }
+  document.getElementById('decrement').onclick = function () {
+    store.dispatch(decrement)
+  }
+  // 4. 订阅 Store，当 state 发生变更时，执行 callback
+  store.subscribe(() => {
+    document.getElementById('count').textContent = store.getState().count
+  })
+</script>
+</body>
+</html>
