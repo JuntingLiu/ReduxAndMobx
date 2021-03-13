@@ -61,17 +61,28 @@
   const increment = { type: 'increment' }
   const decrement = { type: 'decrement' }
 
+  const actions = bindActionCreators({
+    increment: () => ({ type: 'increment' }),
+    decrement: () => ({ type: 'decrement' }),
+  }, store.dispatch)
+
   // 5. 绑定事件，去触发 action
   document.getElementById('increment').onclick = function () {
-    store.dispatch(increment)
+    // store.dispatch(increment)
+
+    // enhancer
     // store.dispatch((dispatch) => {
     //   setTimeout(() => {
     //     dispatch(increment)
     //   }, 2000);
     // })
+
+    // bindActionCreators
+    actions.increment()
   }
   document.getElementById('decrement').onclick = function () {
-    store.dispatch(decrement)
+    // store.dispatch(decrement)
+    actions.decrement()
   }
   // 4. 订阅 Store，当 state 发生变更时，执行 callback
   store.subscribe(() => {

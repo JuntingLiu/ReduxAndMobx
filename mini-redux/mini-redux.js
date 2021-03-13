@@ -103,7 +103,6 @@ function applyMiddleware(...middlewares) {
   }
 }
 
-
 function compose(...funcs) {
   // 需要倒序处理，因为当前传递的 next 中间件是下一个中间件，所以需要倒序处理，返回最后的中间件，就是我们需要执行的第一个中间件
   return function (dispatch) {
@@ -112,4 +111,14 @@ function compose(...funcs) {
     }
     return dispatch
   }
+}
+
+// action 生成方法
+function bindActionCreators (actionCreators, dispatch) {
+  const boundActionCreators = {}
+
+  for (let key in actionCreators) {
+    boundActionCreators[key] = () => dispatch(actionCreators[key]())
+  }
+  return boundActionCreators
 }
