@@ -1,12 +1,21 @@
 /**
  * createStore(reducer, preloadedState, enhancer)
  * { getState, dispatch, subscribe }
+ * enhancer (增强): typeof enhancer === 'function'
  */
 
-function createStore(reducer, preloadedState) {
+function createStore(reducer, preloadedState, enhancer) {
   // 约束 reducer
   if (typeof reducer !== 'function') {
     throw new Error('reducer 必须是函数')
+  }
+  // 判断是否传递 enhancer 参数，是不是一个函数
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('enhancer 必须是函数')
+    }
+    // 返回生成更加强大的 Store，给调用者自主权限
+    return enhancer(createStore)(reducer, preloadedState)
   }
 
   // 当前存储的初始状态

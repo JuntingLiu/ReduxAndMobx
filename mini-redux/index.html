@@ -13,6 +13,25 @@
 
 <script src="mini-redux.js"></script>
 <script>
+  function enhancer (createStore) {
+    return function(reducer, preloadState) {
+      const store = createStore(reducer, preloadState)
+      const dispatch = store.dispatch
+
+      // 增强 dispatch, 让其拥有处理异步的能力，类似 redux-thunk 中间件
+      function _dispatch (action) {
+        if (typeof action === 'function') {
+          return action(dispatch)
+        }
+        dispatch(action)
+      }
+
+      return {
+        ...store,
+        dispatch: _dispatch
+      }
+    }
+  }
   // 3. 初始化默认状态
   const initialState = {
     count: 0
@@ -34,7 +53,7 @@
   }
 
   // 1. 创建 store 对象
-  const store = createStore(reducer)
+  const store = createStore(reducer, initialState, enhancer)
 
   // 4. 定义 action 操作状态的行为方式
   const increment = { type: 'increment' }
@@ -42,7 +61,12 @@
 
   // 5. 绑定事件，去触发 action
   document.getElementById('increment').onclick = function () {
-    store.dispatch(increment)
+    // store.dispatch(increment)
+    store.dispatch((dispatch) => {
+      setTimeout(() => {
+        dispatch(increment)
+      }, 2000);
+    })
   }
   document.getElementById('decrement').onclick = function () {
     store.dispatch(decrement)
