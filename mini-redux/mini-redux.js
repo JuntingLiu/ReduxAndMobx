@@ -79,3 +79,37 @@ function isPlainObject (obj) {
 // console.log(isPlainObject('a'));
 // console.log(isPlainObject(true));
 // console.log(isPlainObject(1));
+
+// applyMiddleware 函数就是内置提供的 enhancer 增强函数
+function applyMiddleware(...middlewares) {
+  return function (createStore) {
+    return function (reducer, preloadedState) {
+      const store = createStore(reducer, preloadedState)
+      // 阉割版 store
+      const middlewareAPI = {
+        getState: store.getState,
+        dispatch: store.dispatch
+      }
+      // 调用中间件的第一层函数，传递阉割版的 store
+      const chain = middlewares.map(middleware => middleware(middlewareAPI))
+      // 处理第二层函数
+      const dispatch = compose(...chain)(store.dispatch)
+      // 返回一个增强的 store
+      return {
+        ...store,
+        dispatch
+      }
+    }
+  }
+}
+
+
+function compose(...funcs) {
+  // 需要倒序处理，因为当前传递的 next 中间件是下一个中间件，所以需要倒序处理，返回最后的中间件，就是我们需要执行的第一个中间件
+  return function (dispatch) {
+    for (let i = funcs.length -1; i >= 0; i--) {
+      dispatch = funcs[i](dispatch)
+    }
+    return dispatch
+  }
+}

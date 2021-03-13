@@ -12,6 +12,8 @@
   <button id="decrement">-</button>
 
 <script src="mini-redux.js"></script>
+<script src="./middleware/logger.js"></script>
+<script src="./middleware/thunk.js"></script>
 <script>
   function enhancer (createStore) {
     return function(reducer, preloadState) {
@@ -53,7 +55,7 @@
   }
 
   // 1. 创建 store 对象
-  const store = createStore(reducer, initialState, enhancer)
+  const store = createStore(reducer, initialState, applyMiddleware(logger, thunk))
 
   // 4. 定义 action 操作状态的行为方式
   const increment = { type: 'increment' }
@@ -61,12 +63,12 @@
 
   // 5. 绑定事件，去触发 action
   document.getElementById('increment').onclick = function () {
-    // store.dispatch(increment)
-    store.dispatch((dispatch) => {
-      setTimeout(() => {
-        dispatch(increment)
-      }, 2000);
-    })
+    store.dispatch(increment)
+    // store.dispatch((dispatch) => {
+    //   setTimeout(() => {
+    //     dispatch(increment)
+    //   }, 2000);
+    // })
   }
   document.getElementById('decrement').onclick = function () {
     store.dispatch(decrement)
