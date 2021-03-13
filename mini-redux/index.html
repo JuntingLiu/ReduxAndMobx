@@ -39,7 +39,7 @@
     count: 0
   }
   // 2. 创建 reducer 函数
-  function reducer(state = initialState, action) {
+  function counterReducer(state = initialState, action) {
     switch (action.type) {
       case 'increment':
         return {
@@ -54,8 +54,10 @@
     }
   }
 
+  const rootReducer = combineReducers({ counter: counterReducer })
+
   // 1. 创建 store 对象
-  const store = createStore(reducer, initialState, applyMiddleware(logger, thunk))
+  const store = createStore(rootReducer, initialState, applyMiddleware(logger, thunk))
 
   // 4. 定义 action 操作状态的行为方式
   const increment = { type: 'increment' }
@@ -86,7 +88,8 @@
   }
   // 4. 订阅 Store，当 state 发生变更时，执行 callback
   store.subscribe(() => {
-    document.getElementById('count').textContent = store.getState().count
+    document.getElementById('count').textContent = store.getState().counter.count
+    // document.getElementById('count').textContent = store.getState().count
   })
 </script>
 </body>
