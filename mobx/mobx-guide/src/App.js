@@ -4,6 +4,11 @@ import { inject, observer } from 'mobx-react'
 @inject('counter')
 @observer
 class App extends React.Component {
+  componentDidMount() {
+    const { getData } = this.props.counter
+    getData()
+  }
+
   render () {
     const { counter } = this.props
 
@@ -12,6 +17,12 @@ class App extends React.Component {
         <button onClick={counter.increment}>+</button>
         <span>{counter.count}</span>
         <button onClick={counter.decrement}>-</button>
+        <br/>
+        {
+          counter.users.map(user => (
+            <p key={user.id}>{user.id} - {user.login}</p>
+          ))
+        }
       </div>
     );
   }
