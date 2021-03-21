@@ -2,6 +2,6 @@ class TodoStore {
 
 }
 
-const todoStore = new TodoStore()
+const todo = new TodoStore()
 
-export default todoStore
+export default todo
