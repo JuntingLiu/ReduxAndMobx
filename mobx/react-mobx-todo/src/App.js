@@ -8,9 +8,11 @@ import './index.css'
 function App() {
   return (
     <div className="App">
-      <AddTodo />
-      <TodoList />
-      <TodoExtra />
+      <section className="todoapp">
+        <AddTodo />
+        <TodoList />
+        <TodoExtra />
+      </section>
     </div>
   );
 }
