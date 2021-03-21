@@ -1,19 +1,23 @@
 import React from 'react'
+import { inject, observer } from 'mobx-react'
 
+@inject('todo')
+@observer
 class TodoExtra extends React.Component {
   render () {
+    const { unfinishedTodoCount, filter, changeFilter } = this.props.todo
     return (
       <footer className="footer">
-        <span className="todo-count"><strong>0</strong> item left</span>
+        <span className="todo-count"><strong>{ unfinishedTodoCount }</strong> item left</span>
         <ul className="filters">
           <li>
-            <button className="selected">All</button>
+            <button onClick={() => changeFilter('All')} className={ filter === 'All' ? 'selected' : ''}>All</button>
           </li>
           <li>
-            <button>Active</button>
+            <button onClick={() => changeFilter('Active')} className={ filter === 'Active' ? 'selected' : ''}>Active</button>
           </li>
           <li>
-            <button>Completed</button>
+            <button onClick={() => changeFilter('Completed')} className={ filter === 'Completed' ? 'selected' : ''}>Completed</button>
           </li>
         </ul>
         <button className="clear-completed">Clear completed</button>
