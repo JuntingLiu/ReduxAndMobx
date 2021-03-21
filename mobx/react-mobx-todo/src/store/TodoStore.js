@@ -53,6 +53,12 @@ class TodoStore {
         return []
     }
   }
+
+  // 清空已完成的任务
+  @action.bound
+  clearCompleted() {
+    this.todos = this.todos.filter(todo => !todo.isCompleted)
+  }
 }
 
 const todo = new TodoStore()

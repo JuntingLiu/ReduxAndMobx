@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 @observer
 class TodoExtra extends React.Component {
   render () {
-    const { unfinishedTodoCount, filter, changeFilter } = this.props.todo
+    const { unfinishedTodoCount, filter, changeFilter, clearCompleted } = this.props.todo
     return (
       <footer className="footer">
         <span className="todo-count"><strong>{ unfinishedTodoCount }</strong> item left</span>
@@ -20,7 +20,7 @@ class TodoExtra extends React.Component {
             <button onClick={() => changeFilter('Completed')} className={ filter === 'Completed' ? 'selected' : ''}>Completed</button>
           </li>
         </ul>
-        <button className="clear-completed">Clear completed</button>
+        <button onClick={() => clearCompleted()} className="clear-completed">Clear completed</button>
       </footer>
     )
   }
