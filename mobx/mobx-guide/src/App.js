@@ -18,6 +18,9 @@ class App extends React.Component {
         <span>{counter.count}</span>
         <button onClick={counter.decrement}>-</button>
         <br/>
+        <input type="text" value={counter.username} onChange={(e) => counter.changeUsername(e.target.value)}/>
+        {counter.username}
+        <br/>
         {
           counter.users.map(user => (
             <p key={user.id}>{user.id} - {user.login}</p>
