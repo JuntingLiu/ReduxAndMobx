@@ -53,7 +53,6 @@ class TodoStore {
         return []
     }
   }
-
   // 清空已完成的任务
   @action.bound
   clearCompleted() {
